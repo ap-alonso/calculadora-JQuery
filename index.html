@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora</title>
+    <script src="jquery-3.6.0.js"></script>
+</head>
+<body>
+    <style>
+        .bloqNumeros{ display: flex; flex-wrap: wrap; width: 70%;}
+        .numeros{ width:25%; border: 1px solid #ccc; margin: 2%;}
+    </style>
+<div id="bloqGeneral" class="bloqGeneral">
+    <div id="bloqTitulo" ></div>
+    <div id="bloqResultado"></div>
+    <div id="bloqNumeros" class="bloqNumeros"></div>
+    <div id="bloqOperadores" class="bloqOperadores"></div>
+</div>
+<script>
+    var arrayNum= [];
+    $('#bloqTitulo').html('Calculadora');
+    var i
+    for (i = 0; i <= 9; i++) {
+            creaBotones('#bloqNumeros',i);       
+    }
+     $('#bloqOperadores').append('<div class="operadores" id="opSuma" >+</div>');
+     $('#bloqOperadores').append('<div class="operadores" id="opIgual" >=</div>');
+   $('#num0').css('order','11');
+    function creaBotones(idBloq, txt){
+        $(idBloq).append('<div class="numeros" id="num'+txt+'" style="order:'+(txt+1)+'"   >'+txt+'</div>');
+           $('#num' + txt).click(function () {
+            arrayNum.push(txt);
+            manejoNum(arrayNum);
+        });
+    }
+
+
+    function manejoNum(array){
+        impre(array);
+         $('#opSuma').click(function () {
+            var num01 = array.join('');
+            arrayNum = [];
+            impre(num01); 
+        });
+
+    };
+
+
+
+
+    
+    function impre(x) {
+        console.log(x);
+    }
+
+</script>
+
+</body>
+</html>
