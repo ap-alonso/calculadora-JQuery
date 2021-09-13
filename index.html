@@ -9,17 +9,19 @@
 </head>
 <body>
     <style>
-        .bloqNumeros{ display: flex; flex-wrap: wrap; width: 70%;}
+        .bloqGeneral { width: 70%;}
+        .bloqNumeros{ display: flex; flex-wrap: wrap; width: 100%;}
+        .bloqResultado{ width:80%; height: 30px;border: 1px solid #ccc; margin: 2%;}
         .numeros{ width:25%; border: 1px solid #ccc; margin: 2%;}
     </style>
 <div id="bloqGeneral" class="bloqGeneral">
     <div id="bloqTitulo" ></div>
-    <div id="bloqResultado"></div>
+    <div id="bloqResultado" class="bloqResultado"></div>
     <div id="bloqNumeros" class="bloqNumeros"></div>
     <div id="bloqOperadores" class="bloqOperadores"></div>
 </div>
 <script>
-    var arrayNum= [];
+    var arrayNum= [], num01, num02, arrayCalc = [] ;
     $('#bloqTitulo').html('Calculadora');
     var i
     for (i = 0; i <= 9; i++) {
@@ -28,29 +30,57 @@
      $('#bloqOperadores').append('<div class="operadores" id="opSuma" >+</div>');
      $('#bloqOperadores').append('<div class="operadores" id="opIgual" >=</div>');
    $('#num0').css('order','11');
-    function creaBotones(idBloq, txt){
+
+   function creaBotones(idBloq, txt){
         $(idBloq).append('<div class="numeros" id="num'+txt+'" style="order:'+(txt+1)+'"   >'+txt+'</div>');
            $('#num' + txt).click(function () {
             arrayNum.push(txt);
-            manejoNum(arrayNum);
+            num01 = arrayNum.join('');
+            $('#bloqResultado').append(txt);
         });
     }
-
-
-    function manejoNum(array){
-        impre(array);
-         $('#opSuma').click(function () {
-            var num01 = array.join('');
-            arrayNum = [];
-            impre(num01); 
+     $('#opSuma').click(function () {
+         operador('+');
         });
+    
+      $('#opIgual').click(function () {
+            operador('=');
+            if(arrayCalc.length==3 ){
+                impre('son 3');
+            }
 
-    };
+        });  
+    function operador(op){
+         if (num01 != '') {
+            arrayCalc.push(num01);
+            arrayCalc.push(op);
+            $('#bloqResultado').append(op);
+        }
+        arrayNum = [];
+        num01 = '';
+        
+        impre('a_arrayNum: ' + arrayNum);
+        impre('a_num01: ' + num01);
+        impre('a_arrayCalc: ' + arrayCalc);
+        impre('a_arrayCalc_len: ' + arrayCalc.length);
+
+        if(arrayCalc.length==3){
+         impre('son 3');
+        }
+
+
+    }
+
+    
+       
+        
+    
 
 
 
 
     
+
     function impre(x) {
         console.log(x);
     }
