@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,134 +10,94 @@
 
 <body>
 <style>
-    .bloqResultados{
-        width: 49%;
-        height:50px;
-     }
-    .bloqBotonera{
-        width: 50%;
-    }
-    .botonera{
-        display: flex;
-        flex-wrap: wrap;
-    }
-    .botones{
-        width: 24%;
-        height:30px;
-        border: 1px solid #ccc;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        
-    }
-
+    .bloqResultados{ width: 49%;}
+    .bloqBotonera{ width: 50%;}
+    .botonera{ display: flex; flex-wrap: wrap;}
+    .botones{ width: 24%; height:30px; border: 1px solid #ccc; display: flex; justify-content: center; align-items: center;}
+    .bloqDisplay{ height:30px}
 </style>
     <div class="bloqGeneral">
-        
         <div class="bloqResultados">
-            <div class="bloqHistorial">
-                <div id="historia"></div>
+            <div class="bloqDisplay">
+                <div id="historia"> </div>
             </div>
-            <div class="bloqResultado">
+            <div class="bloqDisplay">
                 <div id="resultado">0</div>
             </div>
         </div>
-
         <div class="bloqBotonera">
             <div class="botonera" id="botonera"></div>
         </div>
-
     </div>
-
     <script>
         var arrayNumeros=[], arrayOp = [], num01;
-
         // Creación Botones
         creaBoton('C', 'reinicio');  creaBoton('<=','borrar');  creaBoton('%','porciento');  creaBoton('/','division');
         creaBoton('7', '7');         creaBoton('8', '8');       creaBoton('9', '9');         creaBoton('X','multiplicacion');
         creaBoton('4', '4');         creaBoton('5', '5');       creaBoton('6', '6');         creaBoton('-', 'resta');
         creaBoton('1', '1');         creaBoton('2', '2');       creaBoton('3', '3');         creaBoton('+', 'suma');
         creaBoton(' ', 'vacio');     creaBoton('0', '0');       creaBoton('.', 'punto');         creaBoton('=', 'igual');
-         
         // Click Botones
         clickBoton('accion', 'C', 'reinicio');  clickBoton('accion', '<=','borrar');  clickBoton('op', '%','porciento');   clickBoton('op', '/','division');
         clickBoton('num', '7', '7');            clickBoton('num', '8', '8');          clickBoton('num', '9', '9');         clickBoton('op', 'X','multiplicacion');
         clickBoton('num', '4', '4');            clickBoton('num', '5', '5');          clickBoton('num', '6', '6');         clickBoton('op', '-', 'resta');
         clickBoton('num', '1', '1');            clickBoton('num', '2', '2');          clickBoton('num', '3', '3');         clickBoton('op', '+', 'suma');
         clickBoton('accion', ' ', 'vacio');     clickBoton('num','0', '0');           clickBoton('punto', '.', 'punto');   clickBoton('igual', '=', 'igual');
-
-        
-
-        
-
+        // Fun crea botones
         function creaBoton(txt, valor){
             $('#botonera').append('<div class="botones" id="btn_'+valor+'"> <div>'+txt+'</div></div> ');
         }
-
+        // Fun clickBoton
         function clickBoton(tipo, txt, valor){
-
-
             $('#btn_'+valor).click(function () {
-
-
+                // Números
                 if(tipo=='num'){
-                    
                     arrayNumeros.push(valor);
                     $('#historia').append(txt);
                    num01 = arrayNumeros.join('');
-                   impre(num01);
-                   impre('lA: ' + arrayOp.length);
-
-             
                 };
+                // Operadores
                 if(tipo=='op'){
                     $('#historia').append(txt);
                     arrayOp.push(num01);
                     arrayOp.push(valor);
-                    
                     arrayNumeros = [];
                     num01 = '';
                    impre(arrayOp);
                 }
-
-                
+                // Igual
                 if(tipo=='igual'){
                     if(num01!=''){
                         arrayOp.push(num01);
                     }
                     impre(arrayOp);
-                    impre(arrayOp.length);
                     arrayNumeros = [];
                     num01 = '';
-                    
                     var n1 = parseInt(arrayOp[0]);
                     var op = arrayOp[1];
                     var n2 = parseInt(arrayOp[2]);
                     var res ='';
                     switch (op) {
                         case 'suma':
-                            res=n1+n2;
-                            $('#resultado').html(res);
-                            break;
+                        res=n1+n2;
+                        break;
+                        case 'resta':
+                        res = n1 - n2;
+                        break;
+                        case 'multiplicacion':
+                        res = n1 * n2;
+                        break;
+                        case 'division':
+                        res = n1 / n2;
+                        break;
                     }
+                    $('#resultado').html(res);
+                    $('#historia').html(' ');
                     arrayOp = [];
                 }
-
-                
-                
             });
-            
         }
-
-        
-
-        function impre(x) {
-            console.log(x);
-        }
-
+        function impre(x) { console.log(x);}
     </script>
-
-
 </body>
-
 </html>
