@@ -7,26 +7,26 @@
     <title>Document</title>
     <script src="jquery-3.6.0.js"></script>
 </head>
-
 <body>
 <style>
-    .bloqResultados{ width: 49%;}
-    .bloqBotonera{ width: 50%;}
-    .botonera{ display: flex; flex-wrap: wrap;}
-    .botones{ width: 24%; height:30px; border: 1px solid #ccc; display: flex; justify-content: center; align-items: center;}
-    .bloqDisplay{ height:30px}
+    .bloqGeneral{width: 100%; display:flex; justify-content: center; height:100%;   align-items: center;}
+    .bloqCalculadora{width: 50%; }
+    .bloqResultados{ background-color:rgb(199, 236, 247); width: 94% ; margin: auto;}
+     #historia{ padding: 2% 5%; font-size:24px; font-weight:bold} 
+     #resultado{ padding: 2% 5%; text-align: right;font-size:14px; font-size:24px; font-weight:bold}
+    .bloqBotonera{ width: 100%; }
+    .botonera{ display: flex; flex-wrap: wrap; justify-content: center; }
+    .botones{ width: 22%; height:40px; background-color: rgb(227, 227, 227); display: flex; justify-content: center; align-items: center; margin: 1%}
 </style>
     <div class="bloqGeneral">
+        <div class="bloqCalculadora">
         <div class="bloqResultados">
-            <div class="bloqDisplay">
-                <div id="historia"> </div>
-            </div>
-            <div class="bloqDisplay">
+                <div id="historia">&nbsp;</div> 
                 <div id="resultado">0</div>
-            </div>
         </div>
         <div class="bloqBotonera">
             <div class="botonera" id="botonera"></div>
+        </div>
         </div>
     </div>
     <script>
@@ -92,7 +92,7 @@
                         break;
                     }
                     $('#resultado').html(res);
-                    $('#historia').html(' ');
+                    $('#historia').html('&nbsp;');
                     arrayOp = [];
                 }
             });
