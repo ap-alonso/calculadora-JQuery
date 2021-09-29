@@ -1,91 +1,144 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora</title>
+    <title>Document</title>
     <script src="jquery-3.6.0.js"></script>
 </head>
+
 <body>
-    <style>
-        .bloqGeneral { width: 70%;}
-        .bloqNumeros{ display: flex; flex-wrap: wrap; width: 100%;}
-        .bloqResultado{ width:80%; height: 30px;border: 1px solid #ccc; margin: 2%;}
-        .numeros{ width:25%; border: 1px solid #ccc; margin: 2%;}
-    </style>
-<div id="bloqGeneral" class="bloqGeneral">
-    <div id="bloqTitulo" ></div>
-    <div id="bloqResultado" class="bloqResultado"></div>
-    <div id="bloqNumeros" class="bloqNumeros"></div>
-    <div id="bloqOperadores" class="bloqOperadores"></div>
-</div>
-<script>
-    var arrayNum= [], num01, num02, arrayCalc = [] ;
-    $('#bloqTitulo').html('Calculadora');
-    var i
-    for (i = 0; i <= 9; i++) {
-            creaBotones('#bloqNumeros',i);       
+<style>
+    .bloqResultados{
+        width: 49%;
+        height:50px;
+     }
+    .bloqBotonera{
+        width: 50%;
     }
-     $('#bloqOperadores').append('<div class="operadores" id="opSuma" >+</div>');
-     $('#bloqOperadores').append('<div class="operadores" id="opIgual" >=</div>');
-   $('#num0').css('order','11');
-
-   function creaBotones(idBloq, txt){
-        $(idBloq).append('<div class="numeros" id="num'+txt+'" style="order:'+(txt+1)+'"   >'+txt+'</div>');
-           $('#num' + txt).click(function () {
-            arrayNum.push(txt);
-            num01 = arrayNum.join('');
-            $('#bloqResultado').append(txt);
-        });
+    .botonera{
+        display: flex;
+        flex-wrap: wrap;
     }
-     $('#opSuma').click(function () {
-         operador('+');
-        });
-    
-      $('#opIgual').click(function () {
-            operador('=');
-            if(arrayCalc.length==3 ){
-                impre('son 3');
-            }
-
-        });  
-    function operador(op){
-         if (num01 != '') {
-            arrayCalc.push(num01);
-            arrayCalc.push(op);
-            $('#bloqResultado').append(op);
-        }
-        arrayNum = [];
-        num01 = '';
+    .botones{
+        width: 24%;
+        height:30px;
+        border: 1px solid #ccc;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         
-        impre('a_arrayNum: ' + arrayNum);
-        impre('a_num01: ' + num01);
-        impre('a_arrayCalc: ' + arrayCalc);
-        impre('a_arrayCalc_len: ' + arrayCalc.length);
+    }
 
-        if(arrayCalc.length==3){
-         impre('son 3');
+</style>
+    <div class="bloqGeneral">
+        
+        <div class="bloqResultados">
+            <div class="bloqHistorial">
+                <div id="historia"></div>
+            </div>
+            <div class="bloqResultado">
+                <div id="resultado">0</div>
+            </div>
+        </div>
+
+        <div class="bloqBotonera">
+            <div class="botonera" id="botonera"></div>
+        </div>
+
+    </div>
+
+    <script>
+        var arrayNumeros=[], arrayOp = [], num01;
+
+        // Creación Botones
+        creaBoton('C', 'reinicio');  creaBoton('<=','borrar');  creaBoton('%','porciento');  creaBoton('/','division');
+        creaBoton('7', '7');         creaBoton('8', '8');       creaBoton('9', '9');         creaBoton('X','multiplicacion');
+        creaBoton('4', '4');         creaBoton('5', '5');       creaBoton('6', '6');         creaBoton('-', 'resta');
+        creaBoton('1', '1');         creaBoton('2', '2');       creaBoton('3', '3');         creaBoton('+', 'suma');
+        creaBoton(' ', 'vacio');     creaBoton('0', '0');       creaBoton('.', 'punto');         creaBoton('=', 'igual');
+         
+        // Click Botones
+        clickBoton('accion', 'C', 'reinicio');  clickBoton('accion', '<=','borrar');  clickBoton('op', '%','porciento');   clickBoton('op', '/','division');
+        clickBoton('num', '7', '7');            clickBoton('num', '8', '8');          clickBoton('num', '9', '9');         clickBoton('op', 'X','multiplicacion');
+        clickBoton('num', '4', '4');            clickBoton('num', '5', '5');          clickBoton('num', '6', '6');         clickBoton('op', '-', 'resta');
+        clickBoton('num', '1', '1');            clickBoton('num', '2', '2');          clickBoton('num', '3', '3');         clickBoton('op', '+', 'suma');
+        clickBoton('accion', ' ', 'vacio');     clickBoton('num','0', '0');           clickBoton('punto', '.', 'punto');   clickBoton('igual', '=', 'igual');
+
+        
+
+        
+
+        function creaBoton(txt, valor){
+            $('#botonera').append('<div class="botones" id="btn_'+valor+'"> <div>'+txt+'</div></div> ');
         }
 
+        function clickBoton(tipo, txt, valor){
 
-    }
 
-    
-       
+            $('#btn_'+valor).click(function () {
+
+
+                if(tipo=='num'){
+                    
+                    arrayNumeros.push(valor);
+                    $('#historia').append(txt);
+                   num01 = arrayNumeros.join('');
+                   impre(num01);
+                   impre('lA: ' + arrayOp.length);
+
+             
+                };
+                if(tipo=='op'){
+                    $('#historia').append(txt);
+                    arrayOp.push(num01);
+                    arrayOp.push(valor);
+                    
+                    arrayNumeros = [];
+                    num01 = '';
+                   impre(arrayOp);
+                }
+
+                
+                if(tipo=='igual'){
+                    if(num01!=''){
+                        arrayOp.push(num01);
+                    }
+                    impre(arrayOp);
+                    impre(arrayOp.length);
+                    arrayNumeros = [];
+                    num01 = '';
+                    
+                    var n1 = parseInt(arrayOp[0]);
+                    var op = arrayOp[1];
+                    var n2 = parseInt(arrayOp[2]);
+                    var res ='';
+                    switch (op) {
+                        case 'suma':
+                            res=n1+n2;
+                            $('#resultado').html(res);
+                            break;
+                    }
+                    arrayOp = [];
+                }
+
+                
+                
+            });
+            
+        }
+
         
-    
 
+        function impre(x) {
+            console.log(x);
+        }
 
+    </script>
 
-
-    
-
-    function impre(x) {
-        console.log(x);
-    }
-
-</script>
 
 </body>
+
 </html>
