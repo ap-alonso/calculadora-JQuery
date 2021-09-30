@@ -30,7 +30,7 @@
         </div>
     </div>
     <script>
-        var arrayNumeros=[], arrayOp = [], num01;
+        var arrayNumeros=[], arrayOp = [], num01, encPunto, indexPunto;
         // Creación Botones
         creaBoton('C', 'reinicio');  creaBoton('<=','borrar');  creaBoton('%','porciento');  creaBoton('/','division');
         creaBoton('7', '7');         creaBoton('8', '8');       creaBoton('9', '9');         creaBoton('X','multiplicacion');
@@ -38,8 +38,8 @@
         creaBoton('1', '1');         creaBoton('2', '2');       creaBoton('3', '3');         creaBoton('+', 'suma');
         creaBoton(' ', 'vacio');     creaBoton('0', '0');       creaBoton('.', 'punto');         creaBoton('=', 'igual');
         // Click Botones
-        clickBoton('accion', 'C', 'reinicio');  clickBoton('accion', '<=','borrar');  clickBoton('op', '%','porciento');   clickBoton('op', '/','division');
-        clickBoton('num', '7', '7');            clickBoton('num', '8', '8');          clickBoton('num', '9', '9');         clickBoton('op', 'X','multiplicacion');
+        clickBoton('reinicio', 'C', 'reinicio');  clickBoton('accion', '<=','borrar');  clickBoton('op', '%','porciento');   clickBoton('op', '/','division');
+        clickBoton('num', '7', '7');            clickBoton('num', '8', '8');          clickBoton('num', '9', '9');         clickBoton('op', 'x','multiplicacion');
         clickBoton('num', '4', '4');            clickBoton('num', '5', '5');          clickBoton('num', '6', '6');         clickBoton('op', '-', 'resta');
         clickBoton('num', '1', '1');            clickBoton('num', '2', '2');          clickBoton('num', '3', '3');         clickBoton('op', '+', 'suma');
         clickBoton('accion', ' ', 'vacio');     clickBoton('num','0', '0');           clickBoton('punto', '.', 'punto');   clickBoton('igual', '=', 'igual');
@@ -51,10 +51,26 @@
         function clickBoton(tipo, txt, valor){
             $('#btn_'+valor).click(function () {
                 // Números
-                if(tipo=='num'){
-                    arrayNumeros.push(valor);
-                    $('#historia').append(txt);
-                   num01 = arrayNumeros.join('');
+                if(tipo=='num'|| tipo == 'punto'){
+                    if(tipo == 'num'){
+                        arrayNumeros.push(valor);
+                         $('#historia').append(txt);
+                    }
+                    if (tipo == 'punto') {
+                        if(arrayNumeros!=''){
+                            jQuery.each(arrayNumeros, function (i, x) {
+                                encPunto = arrayNumeros.find(y => y == '.');
+                                indexPunto= arrayNumeros.indexOf(encPunto);
+                                if (indexPunto ==-1 ) {
+                                     arrayNumeros.push(txt);
+                                    $('#historia').append(txt);
+                                    impre('ingresar punto');
+                                }
+                            });
+                        }
+                    }
+                    num01 = arrayNumeros.join('');
+                    impre(arrayNumeros);
                 };
                 // Operadores
                 if(tipo=='op'){
@@ -73,9 +89,9 @@
                     impre(arrayOp);
                     arrayNumeros = [];
                     num01 = '';
-                    var n1 = parseInt(arrayOp[0]);
+                    var n1 = parseFloat(arrayOp[0]);
                     var op = arrayOp[1];
-                    var n2 = parseInt(arrayOp[2]);
+                    var n2 = parseFloat(arrayOp[2]);
                     var res ='';
                     switch (op) {
                         case 'suma':
@@ -95,6 +111,14 @@
                     $('#historia').html('&nbsp;');
                     arrayOp = [];
                 }
+
+                if (tipo == 'reinicio') {
+                    $('#resultado').html('0');
+                    $('#historia').html('&nbsp;');
+                    arrayNumeros = [];
+                    arrayOp = [];
+                }
+                
             });
         }
         function impre(x) { console.log(x);}
