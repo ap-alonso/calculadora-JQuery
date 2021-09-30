@@ -9,7 +9,10 @@
 </head>
 <body>
 <style>
-    .bloqGeneral{width: 100%; display:flex; justify-content: center; height:100%;   align-items: center;}
+    .bloqMenu{width: 100%; display:flex;  height:40px;   align-items: center;   }
+    .itemMenu{margin:3%;}
+    .hrMenu{border-top: 1px solid#ccc;}
+    .bloqCalculadoraBotones{width: 100%; display:flex; justify-content: center; height:100%;   align-items: center; margin:3% 0}
     .bloqCalculadora{width: 50%; }
     .bloqResultados{ background-color:rgb(199, 236, 247); width: 94% ; margin: auto;}
      #historia{ padding: 2% 5%; font-size:24px; font-weight:bold} 
@@ -17,8 +20,15 @@
     .bloqBotonera{ width: 100%; }
     .botonera{ display: flex; flex-wrap: wrap; justify-content: center; }
     .botones{ width: 22%; height:40px; background-color: rgb(227, 227, 227); display: flex; justify-content: center; align-items: center; margin: 1%}
+    a:link { text-decoration: none; color: #000}
+    a:hover, a:active {  color: #ccc;}
 </style>
-    <div class="bloqGeneral">
+    <div class="bloqMenu">
+        <div class="itemMenu"> <a href="javascript:;" id="calculadoraBotones" >Calculadora Botones</a></div>
+        <div>  <a  href="javascript:;" id="calculadoraInput"> Calculadora Input </a></div>
+    </div>
+    <hr class="hrMenu" >
+    <div class="bloqCalculadoraBotones">
         <div class="bloqCalculadora">
         <div class="bloqResultados">
                 <div id="historia">&nbsp;</div> 
@@ -29,7 +39,20 @@
         </div>
         </div>
     </div>
+
     <script>
+        $("#calculadoraBotones").click(function () {
+         $(".bloqCalculadoraBotones").css('display', "flex");
+        });
+
+        $("#calculadoraInput").click(function () {
+                $(".bloqCalculadoraBotones").css('display', "none");
+            });
+
+
+
+
+
         var arrayNumeros=[], arrayOp = [], num01, encPunto, indexPunto;
         // Creación Botones
         creaBoton('C', 'reinicio');  creaBoton('<=','borrar');  creaBoton('%','porciento');  creaBoton('/','division');
