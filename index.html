@@ -9,137 +9,139 @@
 </head>
 <body>
 <style>
-    .bloqMenu{width: 100%; display:flex;  height:40px;   align-items: center;   }
+    /* Font */
+    @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+    *{font-family: 'Roboto', sans-serif;}
+    /* Menu */
+    .blockMenu{width: 100%; display:flex;  height:40px;   align-items: center;   }
     .itemMenu{margin:3%;}
     .hrMenu{border-top: 1px solid#ccc;}
-    .bloqCalculadoraBotones{width: 100%; display:flex; justify-content: center; height:100%;   align-items: center; margin:3% 0}
-    .bloqCalculadora{width: 50%; }
-    .bloqResultados{ background-color:rgb(199, 236, 247); width: 94% ; margin: auto;}
-     #historia{ padding: 2% 5%; font-size:24px; font-weight:bold} 
-     #resultado{ padding: 2% 5%; text-align: right;font-size:14px; font-size:24px; font-weight:bold}
-    .bloqBotonera{ width: 100%; }
-    .botonera{ display: flex; flex-wrap: wrap; justify-content: center; }
-    .botones{ width: 22%; height:40px; background-color: rgb(227, 227, 227); display: flex; justify-content: center; align-items: center; margin: 1%}
     a:link { text-decoration: none; color: #000}
     a:hover, a:active {  color: #ccc;}
+    /* Calculator Button */
+    .blockGeneralCalculatorButton{width: 100%; display:flex; justify-content: center; height:100%;   align-items: center; margin:3% 0}
+    .blockCalculatorButton{width: 50%; }
+    .blockCalculatorButtonResult{ background-color:rgb(199, 236, 247); width: 94% ; margin: auto;}
+     #calculatorButtonHistory{ padding: 2% 5%; font-size:24px; font-weight:bold} 
+     #calculatorButtonResult{ padding: 2% 5%; text-align: right;font-size:14px; font-size:24px; font-weight:bold}
+    .blockButtons{ width: 100%; }
+    .buttons{ display: flex; flex-wrap: wrap; justify-content: center; }
+    .button{ width: 22%; height:40px; background-color: rgb(227, 227, 227); display: flex; justify-content: center; align-items: center; margin: 1%}
+    
 </style>
-    <div class="bloqMenu">
-        <div class="itemMenu"> <a href="javascript:;" id="calculadoraBotones" >Calculadora Botones</a></div>
-        <div>  <a  href="javascript:;" id="calculadoraInput"> Calculadora Input </a></div>
+    <div class="blockMenu">
+        <div class="itemMenu"> <a href="javascript:;" id="buttonCalculator" >Button</a></div>
+        <div class="itemMenu"> <a  href="javascript:;" id="inputCalculator">Input</a></div>
     </div>
     <hr class="hrMenu" >
-    <div class="bloqCalculadoraBotones">
-        <div class="bloqCalculadora">
-        <div class="bloqResultados">
-                <div id="historia">&nbsp;</div> 
-                <div id="resultado">0</div>
+    <div class="blockGeneralCalculatorButton">
+        <div class="blockCalculatorButton">
+        <div class="blockCalculatorButtonResult">
+                <div id="calculatorButtonHistory">&nbsp;</div> 
+                <div id="calculatorButtonResult">0</div>
         </div>
-        <div class="bloqBotonera">
-            <div class="botonera" id="botonera"></div>
+        <div class="blockButtons">
+            <div class="buttons" id="buttons"></div>
         </div>
         </div>
     </div>
 
     <script>
-        $("#calculadoraBotones").click(function () {
-         $(".bloqCalculadoraBotones").css('display', "flex");
+        $("#buttonCalculator").click(function () {
+         $(".blockGeneralCalculatorButton").css('display', "flex");
         });
 
-        $("#calculadoraInput").click(function () {
-                $(".bloqCalculadoraBotones").css('display', "none");
+        $("#inputCalculator").click(function () {
+                $(".blockGeneralCalculatorButton").css('display', "none");
             });
 
-
-
-
-
-        var arrayNumeros=[], arrayOp = [], num01, encPunto, indexPunto;
+        var arrayNumbers=[], arrayOperator = [], num01, encpoint, indexpoint;
         // Creación Botones
-        creaBoton('C', 'reinicio');  creaBoton('<=','borrar');  creaBoton('%','porciento');  creaBoton('/','division');
-        creaBoton('7', '7');         creaBoton('8', '8');       creaBoton('9', '9');         creaBoton('X','multiplicacion');
-        creaBoton('4', '4');         creaBoton('5', '5');       creaBoton('6', '6');         creaBoton('-', 'resta');
-        creaBoton('1', '1');         creaBoton('2', '2');       creaBoton('3', '3');         creaBoton('+', 'suma');
-        creaBoton(' ', 'vacio');     creaBoton('0', '0');       creaBoton('.', 'punto');         creaBoton('=', 'igual');
+        createButton('C', 'reset');     createButton('<=','delete');  createButton('%','porciento');  createButton('/','divided');
+        createButton('7', '7');         createButton('8', '8');       createButton('9', '9');         createButton('X','times');
+        createButton('4', '4');         createButton('5', '5');       createButton('6', '6');         createButton('-', 'minus');
+        createButton('1', '1');         createButton('2', '2');       createButton('3', '3');         createButton('+', 'plus');
+        createButton(' ', 'vacio');     createButton('0', '0');       createButton('.', 'point');     createButton('=', 'equal');
         // Click Botones
-        clickBoton('reinicio', 'C', 'reinicio');  clickBoton('accion', '<=','borrar');  clickBoton('op', '%','porciento');   clickBoton('op', '/','division');
-        clickBoton('num', '7', '7');            clickBoton('num', '8', '8');          clickBoton('num', '9', '9');         clickBoton('op', 'x','multiplicacion');
-        clickBoton('num', '4', '4');            clickBoton('num', '5', '5');          clickBoton('num', '6', '6');         clickBoton('op', '-', 'resta');
-        clickBoton('num', '1', '1');            clickBoton('num', '2', '2');          clickBoton('num', '3', '3');         clickBoton('op', '+', 'suma');
-        clickBoton('accion', ' ', 'vacio');     clickBoton('num','0', '0');           clickBoton('punto', '.', 'punto');   clickBoton('igual', '=', 'igual');
+        clicButton('reset', 'C', 'reset');  clicButton('accion', '<=','delete');  clicButton('op', '%','porciento');   clicButton('op', '/','divided');
+        clicButton('num', '7', '7');            clicButton('num', '8', '8');          clicButton('num', '9', '9');         clicButton('op', 'x','times');
+        clicButton('num', '4', '4');            clicButton('num', '5', '5');          clicButton('num', '6', '6');         clicButton('op', '-', 'minus');
+        clicButton('num', '1', '1');            clicButton('num', '2', '2');          clicButton('num', '3', '3');         clicButton('op', '+', 'plus');
+        clicButton('accion', ' ', 'vacio');     clicButton('num','0', '0');           clicButton('point', '.', 'point');   clicButton('equal', '=', 'equal');
         // Fun crea botones
-        function creaBoton(txt, valor){
-            $('#botonera').append('<div class="botones" id="btn_'+valor+'"> <div>'+txt+'</div></div> ');
+        function createButton(txt, valor){
+            $('#buttons').append('<div class="button" id="btn_'+valor+'"> <div>'+txt+'</div></div> ');
         }
-        // Fun clickBoton
-        function clickBoton(tipo, txt, valor){
+        // Fun clicButton
+        function clicButton(tipo, txt, valor){
             $('#btn_'+valor).click(function () {
                 // Números
-                if(tipo=='num'|| tipo == 'punto'){
+                if(tipo=='num'|| tipo == 'point'){
                     if(tipo == 'num'){
-                        arrayNumeros.push(valor);
-                         $('#historia').append(txt);
+                        arrayNumbers.push(valor);
+                         $('#calculatorButtonHistory').append(txt);
                     }
-                    if (tipo == 'punto') {
-                        if(arrayNumeros!=''){
-                            jQuery.each(arrayNumeros, function (i, x) {
-                                encPunto = arrayNumeros.find(y => y == '.');
-                                indexPunto= arrayNumeros.indexOf(encPunto);
-                                if (indexPunto ==-1 ) {
-                                     arrayNumeros.push(txt);
-                                    $('#historia').append(txt);
-                                    impre('ingresar punto');
+                    if (tipo == 'point') {
+                        if(arrayNumbers!=''){
+                            jQuery.each(arrayNumbers, function (i, x) {
+                                encpoint = arrayNumbers.find(y => y == '.');
+                                indexpoint= arrayNumbers.indexOf(encpoint);
+                                if (indexpoint ==-1 ) {
+                                     arrayNumbers.push(txt);
+                                    $('#calculatorButtonHistory').append(txt);
+                                    impre('ingresar point');
                                 }
                             });
                         }
                     }
-                    num01 = arrayNumeros.join('');
-                    impre(arrayNumeros);
+                    num01 = arrayNumbers.join('');
+                    impre(arrayNumbers);
                 };
                 // Operadores
                 if(tipo=='op'){
-                    $('#historia').append(txt);
-                    arrayOp.push(num01);
-                    arrayOp.push(valor);
-                    arrayNumeros = [];
+                    $('#calculatorButtonHistory').append(txt);
+                    arrayOperator.push(num01);
+                    arrayOperator.push(valor);
+                    arrayNumbers = [];
                     num01 = '';
-                   impre(arrayOp);
+                   impre(arrayOperator);
                 }
-                // Igual
-                if(tipo=='igual'){
+                // equal
+                if(tipo=='equal'){
                     if(num01!=''){
-                        arrayOp.push(num01);
+                        arrayOperator.push(num01);
                     }
-                    impre(arrayOp);
-                    arrayNumeros = [];
+                    impre(arrayOperator);
+                    arrayNumbers = [];
                     num01 = '';
-                    var n1 = parseFloat(arrayOp[0]);
-                    var op = arrayOp[1];
-                    var n2 = parseFloat(arrayOp[2]);
+                    var n1 = parseFloat(arrayOperator[0]);
+                    var op = arrayOperator[1];
+                    var n2 = parseFloat(arrayOperator[2]);
                     var res ='';
                     switch (op) {
-                        case 'suma':
+                        case 'plus':
                         res=n1+n2;
                         break;
-                        case 'resta':
+                        case 'minus':
                         res = n1 - n2;
                         break;
-                        case 'multiplicacion':
+                        case 'times':
                         res = n1 * n2;
                         break;
-                        case 'division':
+                        case 'divided':
                         res = n1 / n2;
                         break;
                     }
-                    $('#resultado').html(res);
-                    $('#historia').html('&nbsp;');
-                    arrayOp = [];
+                    $('#calculatorButtonResult').html(res);
+                    $('#calculatorButtonHistory').html('&nbsp;');
+                    arrayOperator = [];
                 }
 
-                if (tipo == 'reinicio') {
-                    $('#resultado').html('0');
-                    $('#historia').html('&nbsp;');
-                    arrayNumeros = [];
-                    arrayOp = [];
+                if (tipo == 'reset') {
+                    $('#calculatorButtonResult').html('0');
+                    $('#calculatorButtonHistory').html('&nbsp;');
+                    arrayNumbers = [];
+                    arrayOperator = [];
                 }
                 
             });
